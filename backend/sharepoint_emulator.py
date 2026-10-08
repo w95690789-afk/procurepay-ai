@@ -17,7 +17,10 @@ class SharePointEmulator:
     """
     def __init__(self, base_storage_dir: Optional[str] = None):
         if not base_storage_dir:
-            base_storage_dir = os.path.join(os.path.dirname(__file__), "..", "sharepoint_storage")
+            if os.environ.get("VERCEL") or not os.access(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), os.W_OK):
+                base_storage_dir = "/tmp/sharepoint_storage"
+            else:
+                base_storage_dir = os.path.join(os.path.dirname(__file__), "..", "sharepoint_storage")
         self.base_dir = os.path.abspath(base_storage_dir)
         
         self.folders = {

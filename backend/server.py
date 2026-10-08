@@ -30,18 +30,32 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-frontend_dir = os.path.join(os.path.dirname(__file__), "..", "frontend")
+root_project_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+frontend_dir = os.path.join(root_project_dir, "frontend")
 static_dir = os.path.join(frontend_dir, "static")
-os.makedirs(static_dir, exist_ok=True)
+
+if not os.path.exists(static_dir):
+    try:
+        os.makedirs(static_dir, exist_ok=True)
+    except Exception:
+        static_dir = "/tmp/static"
+        os.makedirs(static_dir, exist_ok=True)
 
 app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
 @app.get("/", response_class=HTMLResponse)
 async def serve_dashboard():
-    index_path = os.path.join(frontend_dir, "index.html")
-    if os.path.exists(index_path):
-        with open(index_path, "r", encoding="utf-8") as f:
-            return f.read()
+    candidates = [
+        os.path.join(frontend_dir, "index.html"),
+        os.path.join(root_project_dir, "frontend", "index.html"),
+        os.path.join(os.path.dirname(__file__), "..", "frontend", "index.html"),
+        os.path.join("/var/task", "frontend", "index.html"),
+        os.path.join(os.getcwd(), "frontend", "index.html")
+    ]
+    for candidate in candidates:
+        if os.path.exists(candidate):
+            with open(candidate, "r", encoding="utf-8") as f:
+                return f.read()
     return "<h1>ProcurePay AI Online</h1>"
 
 @app.get("/favicon.ico")
@@ -188,7 +202,10 @@ async def upload_requisition(file: UploadFile = File(...)):
     try:
         contents = await file.read()
         filename = file.filename or "requisition.xlsx"
-        temp_dir = os.path.join(os.path.dirname(__file__), "..", "temp_uploads")
+        if os.environ.get("VERCEL") or not os.access(root_project_dir, os.W_OK):
+            temp_dir = "/tmp/temp_uploads"
+        else:
+            temp_dir = os.path.join(root_project_dir, "temp_uploads")
         os.makedirs(temp_dir, exist_ok=True)
         file_path = os.path.join(temp_dir, filename)
 
