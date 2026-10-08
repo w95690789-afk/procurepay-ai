@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProcurePay AI - Enterprise Autonomous Procurement & PayPal Settlement</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            500: '#0070ba', /* PayPal Blue */
+                            600: '#003087',
+                            700: '#002266',
+                            emerald: '#10b981',
+                            amber: '#f59e0b',
+                            purple: '#8b5cf6'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #0b0f19; color: #f3f4f6; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .glass-panel {
+            background: rgba(17, 24, 39, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(55, 65, 81, 0.5);
+        }
+        .glow-blue { box-shadow: 0 0 25px -5px rgba(0, 112, 186, 0.3); }
+        .glow-emerald { box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.3); }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #111827; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #374151; border-radius: 3px; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col custom-scrollbar">
+
+    <!-- Top Navigation Bar -->
+    <header class="border-b border-gray-800 bg-gray-950/90 backdrop-blur sticky top-0 z-50 px-6 py-3.5 flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center space-x-4">
+            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-emerald-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
+                <i class="ph-bold ph-lightning text-2xl"></i>
+            </div>
+            <div>
+                <div class="flex items-center space-x-2">
+                    <h1 class="font-bold text-lg text-white tracking-tight">ProcurePay <span class="text-blue-400">AI</span></h1>
+                    <span class="px-2 py-0.5 text-xs font-semibold rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">v2.5 Enterprise ERP</span>
+                </div>
+                <p class="text-xs text-gray-400">Cognitive Procurement • SharePoint Sync • SAT Fiscal Audit • PayPal Settlement</p>
+            </div>
+        </div>
+
+        <!-- Live Badges & System Status -->
+        <div class="flex items-center space-x-3 text-xs">
+            <div class="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-gray-900 border border-gray-800">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span class="text-gray-300 font-medium">SharePoint: <strong class="text-emerald-400">ONLINE</strong></span>
+            </div>
+            <div class="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-gray-900 border border-gray-800">
+                <i class="ph-fill ph-paypal-logo text-blue-400 text-sm"></i>
+                <span class="text-gray-300 font-medium">PayPal: <strong class="text-blue-400" id="badge-paypal">SANDBOX LIVE</strong></span>
+            </div>
+            <div class="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-gray-900 border border-gray-800">
+                <i class="ph-bold ph-brain text-purple-400 text-sm"></i>
+                <span class="text-gray-300 font-medium">Groq LLM: <strong class="text-purple-400" id="badge-groq">gpt-oss-120b</strong></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Command Center Layout -->
+    <main class="flex-1 p-6 max-w-7xl w-full mx-auto space-y-6">
+
+        <!-- Preset Scenarios Quick Bar -->
+        <div class="glass-panel rounded-2xl p-4 flex flex-wrap items-center justify-between gap-3 border border-gray-800">
+            <div class="flex items-center space-x-2">
+                <i class="ph-bold ph-sparkle text-amber-400 text-lg"></i>
+                <span class="text-xs font-semibold uppercase tracking-wider text-gray-300">Escenarios Ejecutivos 1-Click:</span>
+            </div>
+            <div class="flex flex-wrap items-center gap-2">
+                <button onclick="runPreset('sharepoint-fma017')" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-blue-600/20 text-blue-300 hover:bg-blue-600/30 border border-blue-500/30 transition flex items-center space-x-1.5">
+                    <i class="ph ph-microsoft-sharepoint-logo"></i>
+                    <span>Requisición FMA-017 + Huérfanos + Pago</span>
+                </button>
+                <button onclick="runPreset('fletes-retencion')" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-indigo-600/20 text-indigo-300 hover:bg-indigo-600/30 border border-indigo-500/30 transition flex items-center space-x-1.5">
+                    <i class="ph ph-truck"></i>
+                    <span>Flete + Retención IVA 4% (Art 1-A)</span>
+                </button>
+                <button onclick="runPreset('high-value-approval')" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-amber-600/20 text-amber-300 hover:bg-amber-600/30 border border-amber-500/30 transition flex items-center space-x-1.5">
+                    <i class="ph ph-shield-check"></i>
+                    <span>Compra Robótica > $500 (Firma Directiva)</span>
+                </button>
+                <button onclick="runPreset('sat-discrepancy-block')" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-rose-600/20 text-rose-300 hover:bg-rose-600/30 border border-rose-500/30 transition flex items-center space-x-1.5">
+                    <i class="ph ph-prohibit"></i>
+                    <span>Bloqueo Fraude SAT 69-B EFOS</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Section 1: Ingestion & SharePoint Simulator -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+            <!-- Ingestion Tabs (7 cols) -->
+            <div class="lg:col-span-7 glass-panel rounded-2xl p-5 space-y-4">
+                <div class="flex items-center justify-between border-b border-gray-800 pb-3">
+                    <div class="flex items-center space-x-2">
+                        <i class="ph-bold ph-tray-arrow-down text-blue-400 text-lg"></i>
+                        <h2 class="font-semibold text-sm text-white">Ingesta Cognitiva Multi-Canal</h2>
+                    </div>
+                    <span class="text-xs text-gray-400">Normalización en tiempo real</span>
+                </div>
+
+                <!-- Tabs Header -->
+                <div class="flex space-x-2 bg-gray-900/80 p-1 rounded-xl border border-gray-800 text-xs">
+                    <button onclick="switchTab('email')" id="tab-btn-email" class="flex-1 py-1.5 rounded-lg font-medium transition text-white bg-blue-600 shadow flex items-center justify-center space-x-1">
+                        <i class="ph ph-envelope"></i><span>Correo</span>
+                    </button>
+                    <button onclick="switchTab('whatsapp')" id="tab-btn-whatsapp" class="flex-1 py-1.5 rounded-lg font-medium transition text-gray-400 hover:text-white flex items-center justify-center space-x-1">
+                        <i class="ph ph-whatsapp-logo"></i><span>WhatsApp Planta</span>
+                    </button>
+                    <button onclick="switchTab('excel')" id="tab-btn-excel" class="flex-1 py-1.5 rounded-lg font-medium transition text-gray-400 hover:text-white flex items-center justify-center space-x-1">
+                        <i class="ph ph-file-xls"></i><span>Excel FMA-017</span>
+                    </button>
+                    <button onclick="switchTab('xml')" id="tab-btn-xml" class="flex-1 py-1.5 rounded-lg font-medium transition text-gray-400 hover:text-white flex items-center justify-center space-x-1">
+                        <i class="ph ph-file-code"></i><span>CFDI XML SAT</span>
+                    </button>
+                </div>
+
+                <!-- Tab 1: Email -->
+                <div id="tab-content-email" class="space-y-3">
+                    <textarea id="input-email" rows="3" class="w-full bg-gray-900 border border-gray-800 rounded-xl p-3 text-xs text-gray-200 focus:outline-none focus:border-blue-500 font-sans" placeholder="Pega el cuerpo del correo de solicitud de compra...">Hola equipo de compras, necesitamos cotizar urgente 4 cajas de guantes de nitrilo calibre 6mil y 2 galones de desengrasante para la nave de ensamble 2.</textarea>
+                    <button onclick="submitUnstructured('email')" class="w-full py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-xl text-xs font-semibold shadow flex items-center justify-center space-x-2 transition">
+                        <i class="ph-bold ph-sparkle"></i><span>Procesar Correo con Groq LLM & Liquidar en PayPal</span>
+                    </button>
+                </div>
+
+                <!-- Tab 2: WhatsApp -->
+                <div id="tab-content-whatsapp" class="hidden space-y-3">
+                    <textarea id="input-whatsapp" rows="3" class="w-full bg-gray-900 border border-gray-800 rounded-xl p-3 text-xs text-emerald-300 focus:outline-none focus:border-emerald-500 font-mono" placeholder="Pega el chat de WhatsApp...">[14:22, Ing. Garza]: Buenas tardes compras, se nos daño el sensor de la banda 3. Ocupo urgente 2 sensores fotoelectricos omron e3z y 1 rodamiento de bolas skf 6205 para el motor principal. Urge hoy mismo!</textarea>
+                    <button onclick="submitUnstructured('whatsapp')" class="w-full py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-xl text-xs font-semibold shadow flex items-center justify-center space-x-2 transition">
+                        <i class="ph-bold ph-whatsapp-logo"></i><span>Procesar WhatsApp Operativo & Liquidar</span>
+                    </button>
+                </div>
+
+                <!-- Tab 3: Excel FMA-017 -->
+                <div id="tab-content-excel" class="hidden space-y-3">
+                    <div class="border-2 border-dashed border-gray-700 hover:border-blue-500 rounded-xl p-6 text-center transition cursor-pointer bg-gray-900/50" onclick="document.getElementById('file-upload').click()">
+                        <i class="ph-duotone ph-file-arrow-up text-3xl text-blue-400 mb-2"></i>
+                        <p class="text-xs text-gray-300 font-medium">Arrastra o selecciona una Requisición Excel (.xlsx, .csv)</p>
+                        <p class="text-[10px] text-gray-500 mt-1">Soporta formato oficial corporativo FMA-017 REVISIÓN 00</p>
+                        <input id="file-upload" type="file" class="hidden" accept=".xlsx,.xls,.csv,.json" onchange="handleFileUpload(event)">
+                    </div>
+                </div>
+
+                <!-- Tab 4: CFDI XML -->
+                <div id="tab-content-xml" class="hidden space-y-3">
+                    <textarea id="input-xml" rows="3" class="w-full bg-gray-900 border border-gray-800 rounded-xl p-3 text-xs text-amber-300 focus:outline-none focus:border-amber-500 font-mono" placeholder="Pega el XML del CFDI 4.0..."><?xml version="1.0" encoding="utf-8"?>
+<cfdi:Comprobante xmlns:cfdi="http://www.sat.gob.mx/cfd/4" xmlns:tfd="http://www.sat.gob.mx/TimbreFiscalDigital" Version="4.0" Folio="FAC-2026-991" Total="348.00" SubTotal="300.00" Moneda="USD">
+  <cfdi:Emisor Rfc="PEL180420TR1" Nombre="ProServicios Express Logistics"/>
+  <cfdi:Conceptos>
+    <cfdi:Concepto NoIdentificacion="SKU-001" Descripcion="Sensor Fotoelectrico Omron E3Z-D61" Cantidad="2.0" ValorUnitario="150.00" Importe="300.00"/>
+  </cfdi:Conceptos>
+  <cfdi:Complemento>
+    <tfd:TimbreFiscalDigital UUID="A9B8C7D6-E5F4-4A3B-8C9D-0E1F2A3B4C5D"/>
+  </cfdi:Complemento>
+</cfdi:Comprobante></textarea>
+                    <button onclick="submitXml()" class="w-full py-2 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-500 hover:to-orange-500 text-white rounded-xl text-xs font-semibold shadow flex items-center justify-center space-x-2 transition">
+                        <i class="ph-bold ph-shield-check"></i><span>Auditar CFDI 4.0 con SAT 69-B & Liquidar</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- SharePoint Document Library Live Viewer (5 cols) -->
+            <div class="lg:col-span-5 glass-panel rounded-2xl p-5 space-y-4 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between border-b border-gray-800 pb-3">
+                        <div class="flex items-center space-x-2">
+                            <i class="ph-fill ph-microsoft-sharepoint-logo text-teal-400 text-lg"></i>
+                            <h2 class="font-semibold text-sm text-white">SharePoint M365 Document Hub</h2>
+                        </div>
+                        <button onclick="syncSharePoint()" class="text-xs text-teal-400 hover:underline flex items-center space-x-1">
+                            <i class="ph ph-arrows-clockwise"></i><span>Sincronizar</span>
+                        </button>
+                    </div>
+
+                    <p class="text-xs text-gray-400 mt-2">Estructura viva sincronizada en <code>/sites/CISA-Compras/Shared Documents</code>:</p>
+
+                    <div class="mt-3 space-y-2 text-xs" id="sp-folders-list">
+                        <!-- Folder 1 -->
+                        <div class="p-2.5 rounded-xl bg-gray-900/90 border border-gray-800 flex items-center justify-between hover:border-gray-700 transition">
+                            <div class="flex items-center space-x-2.5">
+                                <i class="ph-duotone ph-folder-notch-open text-blue-400 text-lg"></i>
+                                <div>
+                                    <p class="font-medium text-gray-200">01_Buzon_Entrada_Requisiciones</p>
+                                    <p class="text-[10px] text-gray-500" id="sp-count-buzon">1 archivo en cola de ingesta</p>
+                                </div>
+                            </div>
+                            <button onclick="processSharePointInbox()" class="px-2 py-1 bg-blue-600/30 text-blue-300 hover:bg-blue-600 text-[10px] font-semibold rounded-lg border border-blue-500/40 transition">
+                                Procesar
+                            </button>
+                        </div>
+                        <!-- Folder 2 -->
+                        <div class="p-2.5 rounded-xl bg-gray-900/90 border border-gray-800 flex items-center justify-between">
+                            <div class="flex items-center space-x-2.5">
+                                <i class="ph-duotone ph-folder-notch text-amber-400 text-lg"></i>
+                                <div>
+                                    <p class="font-medium text-gray-200">02_En_Cotizacion</p>
+                                    <p class="text-[10px] text-gray-500" id="sp-count-cotizacion">RFQ automatizados activos</p>
+                                </div>
+                            </div>
+                            <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/10 text-amber-400">RFQ</span>
+                        </div>
+                        <!-- Folder 3 -->
+                        <div class="p-2.5 rounded-xl bg-gray-900/90 border border-gray-800 flex items-center justify-between">
+                            <div class="flex items-center space-x-2.5">
+                                <i class="ph-duotone ph-folder-notch text-emerald-400 text-lg"></i>
+                                <div>
+                                    <p class="font-medium text-gray-200">04_Aprobados_Pagados</p>
+                                    <p class="text-[10px] text-gray-500" id="sp-count-aprobados">Expedientes con Póliza & PayPal</p>
+                                </div>
+                            </div>
+                            <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400">Audit Seal</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-3 rounded-xl bg-blue-950/30 border border-blue-800/40 text-[11px] text-blue-300 flex items-start space-x-2">
+                    <i class="ph-bold ph-info text-base text-blue-400 mt-0.5"></i>
+                    <span>Trazabilidad 100%: Cada compra aprobada genera un expediente inmutable en SharePoint con Póliza Contable y comprobante de PayPal Sandbox.</span>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Section 2: AI Orphan Items & RFQ Comparison Matrix -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+            <!-- Orphan Item Homologation Card (6 cols) -->
+            <div class="lg:col-span-6 glass-panel rounded-2xl p-5 space-y-4">
+                <div class="flex items-center justify-between border-b border-gray-800 pb-3">
+                    <div class="flex items-center space-x-2">
+                        <i class="ph-bold ph-tree-structure text-purple-400 text-lg"></i>
+                        <h2 class="font-semibold text-sm text-white">Normalización de Productos Huérfanos</h2>
+                    </div>
+                    <span class="text-xs px-2 py-0.5 rounded-full bg-purple-500/10 text-purple-400 font-mono" id="orphan-badge-status">3-Tier AI</span>
+                </div>
+
+                <div class="space-y-2.5 max-h-72 overflow-y-auto custom-scrollbar pr-1" id="orphan-items-container">
+                    <div class="p-3 rounded-xl bg-gray-900 border border-gray-800 text-xs text-gray-400 text-center">
+                        Ejecuta un escenario o procesa una requisición para ver la homologación automática de artículos huérfanos.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Multi-Vendor RFQ Comparative Matrix (6 cols) -->
+            <div class="lg:col-span-6 glass-panel rounded-2xl p-5 space-y-4">
+                <div class="flex items-center justify-between border-b border-gray-800 pb-3">
+                    <div class="flex items-center space-x-2">
+                        <i class="ph-bold ph-scales text-emerald-400 text-lg"></i>
+                        <h2 class="font-semibold text-sm text-white">Cuadro Comparativo RFQ Multi-Proveedor</h2>
+                    </div>
+                    <span class="text-xs text-emerald-400 font-semibold" id="rfq-savings-tag">Mejor Precio Seleccionado</span>
+                </div>
+
+                <div class="space-y-2.5 max-h-72 overflow-y-auto custom-scrollbar pr-1" id="rfq-quotes-container">
+                    <div class="p-3 rounded-xl bg-gray-900 border border-gray-800 text-xs text-gray-400 text-center">
+                        Esperando datos de requisición para comparar cotizaciones...
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Section 3: Intelligent Accounting Engine & Journal Entry (Póliza Debe/Haber) -->
+        <div class="glass-panel rounded-2xl p-5 space-y-4">
+            <div class="flex flex-wrap items-center justify-between border-b border-gray-800 pb-3 gap-2">
+                <div class="flex items-center space-x-2">
+                    <i class="ph-bold ph-receipt text-indigo-400 text-lg"></i>
+                    <h2 class="font-semibold text-sm text-white">Motor Contable Cognitivo & Póliza Balanceada (NIF / SAT)</h2>
+                </div>
+                <div class="flex items-center space-x-2 text-xs" id="poliza-meta-badges">
+                    <span class="px-2.5 py-1 rounded-lg bg-indigo-500/10 text-indigo-300 border border-indigo-500/20 font-mono" id="badge-poliza-num">POL-N/A</span>
+                    <span class="px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-300 border border-emerald-500/20 font-mono" id="badge-poliza-erp">ERP: SAP Business One</span>
+                </div>
+            </div>
+
+            <!-- Accounting Explanation & Cost Center Card -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                <div class="p-3 rounded-xl bg-gray-900/90 border border-gray-800">
+                    <p class="text-gray-400 text-[11px] font-medium uppercase">Cuenta Contable Asignada</p>
+                    <p class="font-bold text-gray-200 mt-0.5" id="acc-code-display">602.40 - Mantenimiento y Reparación</p>
+                    <p class="text-[10px] text-gray-500 mt-1" id="acc-dms-display">DMS Code: 600-400-01</p>
+                </div>
+                <div class="p-3 rounded-xl bg-gray-900/90 border border-gray-800">
+                    <p class="text-gray-400 text-[11px] font-medium uppercase">Centro de Costos & Entidad</p>
+                    <p class="font-bold text-gray-200 mt-0.5" id="acc-cc-display">CC-TAL - Taller y Automatización</p>
+                    <p class="text-[10px] text-gray-500 mt-1" id="acc-bu-display">Planta Ensamble Monterrey</p>
+                </div>
+                <div class="p-3 rounded-xl bg-gray-900/90 border border-gray-800">
+                    <p class="text-gray-400 text-[11px] font-medium uppercase">Criterio Fiscal & Deducción</p>
+                    <p class="font-bold text-emerald-400 mt-0.5" id="acc-tax-display">IVA 16% Acreditable (NIF C-4)</p>
+                    <p class="text-[10px] text-gray-500 mt-1" id="acc-nif-display">Deducción Inmediata Art. 27 LISR</p>
+                </div>
+            </div>
+
+            <!-- Balanced Debit & Credit Journal Entry Table -->
+            <div class="overflow-x-auto rounded-xl border border-gray-800 bg-gray-900/60">
+                <table class="w-full text-left text-xs font-mono">
+                    <thead class="bg-gray-950 text-gray-400 text-[11px] border-b border-gray-800">
+                        <tr>
+                            <th class="py-2.5 px-3">#</th>
+                            <th class="py-2.5 px-3">Código Cuenta</th>
+                            <th class="py-2.5 px-3">Nombre de Cuenta Contable</th>
+                            <th class="py-2.5 px-3">Concepto del Asiento</th>
+                            <th class="py-2.5 px-3">CC</th>
+                            <th class="py-2.5 px-3 text-right">Debe (Cargo)</th>
+                            <th class="py-2.5 px-3 text-right">Haber (Abono)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="poliza-entries-body" class="divide-y divide-gray-800 text-gray-300">
+                        <tr>
+                            <td colspan="7" class="py-4 text-center text-gray-500 font-sans">Sin asiento contable generado.</td>
+                        </tr>
+                    </tbody>
+                    <tfoot class="bg-gray-950 font-bold text-xs border-t border-gray-800 text-white">
+                        <tr>
+                            <td colspan="5" class="py-2.5 px-3 text-right uppercase tracking-wider text-gray-400">Sumas Iguales:</td>
+                            <td class="py-2.5 px-3 text-right text-emerald-400" id="poliza-total-debe">$0.00</td>
+                            <td class="py-2.5 px-3 text-right text-emerald-400" id="poliza-total-haber">$0.00</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+
+        <!-- Section 4: SAT 3-Way Audit & PayPal Sandbox Settlement -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+            <!-- 3-Way Audit Card (5 cols) -->
+            <div class="lg:col-span-5 glass-panel rounded-2xl p-5 space-y-4">
+                <div class="flex items-center justify-between border-b border-gray-800 pb-3">
+                    <div class="flex items-center space-x-2">
+                        <i class="ph-bold ph-shield-check text-blue-400 text-lg"></i>
+                        <h2 class="font-semibold text-sm text-white">Auditoría 3-Way Matching & SAT 69-B</h2>
+                    </div>
+                    <span class="text-xs px-2 py-0.5 rounded-full font-mono" id="audit-score-pill">Score: 100%</span>
+                </div>
+
+                <div class="space-y-2.5 text-xs">
+                    <div class="flex justify-between items-center p-2.5 rounded-xl bg-gray-900 border border-gray-800">
+                        <span class="text-gray-400">Lista Negra SAT Art. 69-B (EFOS):</span>
+                        <strong class="text-emerald-400 font-semibold" id="audit-efos-status">PROVEEDOR LIMPIO (NO EFOS)</strong>
+                    </div>
+                    <div class="flex justify-between items-center p-2.5 rounded-xl bg-gray-900 border border-gray-800">
+                        <span class="text-gray-400">Tolerancia Precio & Cantidades:</span>
+                        <strong class="text-emerald-400 font-semibold" id="audit-tolerance-status">100% EXACTO (0% Discrepancia)</strong>
+                    </div>
+                    <div class="flex justify-between items-center p-2.5 rounded-xl bg-gray-900 border border-gray-800">
+                        <span class="text-gray-400">Validación IVA 16% Fiscal:</span>
+                        <strong class="text-emerald-400 font-semibold" id="audit-tax-status">MATEMÁTICAMENTE VERIFICADO</strong>
+                    </div>
+                    <div class="p-2.5 rounded-xl bg-gray-900/60 border border-gray-800 font-mono text-[10px] text-gray-500 break-all" id="audit-hash-display">
+                        SHA-256 Seal: SHA256-AUDIT-VALIDATED
+                    </div>
+                </div>
+            </div>
+
+            <!-- PayPal Sandbox Settlement Gateway (7 cols) -->
+            <div class="lg:col-span-7 glass-panel rounded-2xl p-5 space-y-4 glow-blue">
+                <div class="flex items-center justify-between border-b border-gray-800 pb-3">
+                    <div class="flex items-center space-x-2">
+                        <i class="ph-fill ph-paypal-logo text-blue-400 text-xl"></i>
+                        <h2 class="font-semibold text-sm text-white">Pasarela de Liquidación PayPal Sandbox</h2>
+                    </div>
+                    <span class="text-xs px-2.5 py-0.5 rounded-full font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" id="paypal-mode-pill">AUTONOMOUS ZERO-TOUCH</span>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 text-xs">
+                    <div class="p-3 rounded-xl bg-gray-900 border border-gray-800">
+                        <p class="text-gray-400 text-[11px]">PayPal Order ID (Orders API v2)</p>
+                        <p class="font-mono font-bold text-blue-400 mt-0.5 text-xs truncate" id="paypal-order-id">ORD-SANDBOX-LIVE</p>
+                    </div>
+                    <div class="p-3 rounded-xl bg-gray-900 border border-gray-800">
+                        <p class="text-gray-400 text-[11px]">PayPal Payout Batch ID (Payouts API v1)</p>
+                        <p class="font-mono font-bold text-emerald-400 mt-0.5 text-xs truncate" id="paypal-payout-id">PAYOUT-AUTONOMOUS</p>
+                    </div>
+                    <div class="p-3 rounded-xl bg-gray-900 border border-gray-800">
+                        <p class="text-gray-400 text-[11px]">Monto Liquidado</p>
+                        <p class="font-mono font-bold text-white mt-0.5 text-sm" id="paypal-amount-paid">$0.00 USD</p>
+                    </div>
+                    <div class="p-3 rounded-xl bg-gray-900 border border-gray-800">
+                        <p class="text-gray-400 text-[11px]">Destinatario Verificado</p>
+                        <p class="font-mono font-bold text-gray-200 mt-0.5 text-xs truncate" id="paypal-recipient">vendor@example.com</p>
+                    </div>
+                </div>
+
+                <!-- Approval Link Button for High Value Orders -->
+                <div id="paypal-approval-action" class="hidden">
+                    <a id="paypal-approval-btn" href="#" target="_blank" class="w-full py-2.5 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-gray-950 font-bold rounded-xl text-xs flex items-center justify-center space-x-2 shadow-lg shadow-amber-500/20 transition">
+                        <i class="ph-bold ph-arrow-square-out text-base"></i>
+                        <span>Firmar y Autorizar Orden en PayPal Sandbox Checkout</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Section 5: Real-time Multi-Agent Execution Terminal -->
+        <div class="glass-panel rounded-2xl p-5 space-y-3">
+            <div class="flex items-center justify-between border-b border-gray-800 pb-3">
+                <div class="flex items-center space-x-2">
+                    <i class="ph-bold ph-terminal-window text-gray-400 text-lg"></i>
+                    <h2 class="font-semibold text-sm text-white">Terminal de Orquestación Multi-Agente en Tiempo Real</h2>
+                </div>
+                <span class="text-xs font-mono text-gray-500" id="execution-time-label">0.00s</span>
+            </div>
+
+            <div class="bg-gray-950 rounded-xl p-3.5 font-mono text-xs text-gray-300 space-y-1.5 max-h-48 overflow-y-auto custom-scrollbar border border-gray-800" id="agent-terminal-logs">
+                <p class="text-gray-500">> Sistema iniciado. Listo para procesar solicitudes de compras corporativas.</p>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Frontend Core Scripts -->
+    <script>
+        let currentTab = 'email';
+
+        function switchTab(tab) {
+            currentTab = tab;
+            ['email', 'whatsapp', 'excel', 'xml'].forEach(t => {
+                const btn = document.getElementById(`tab-btn-${t}`);
+                const content = document.getElementById(`tab-content-${t}`);
+                if (t === tab) {
+                    btn.className = "flex-1 py-1.5 rounded-lg font-medium transition text-white bg-blue-600 shadow flex items-center justify-center space-x-1";
+                    content.classList.remove('hidden');
+                } else {
+                    btn.className = "flex-1 py-1.5 rounded-lg font-medium transition text-gray-400 hover:text-white flex items-center justify-center space-x-1";
+                    content.classList.add('hidden');
+                }
+            });
+        }
+
+        async function submitUnstructured(sourceType) {
+            const textarea = sourceType === 'email' ? document.getElementById('input-email') : document.getElementById('input-whatsapp');
+            const text = textarea.value.trim();
+            if (!text) return alert("Por favor ingresa texto para procesar.");
+
+            appendTerminalLog(`Iniciando ingesta de ${sourceType.toUpperCase()} con Groq LLM...`);
+            try {
+                const res = await fetch('/api/ingest-unstructured', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ raw_text: text, source_type: sourceType })
+                });
+                const data = await res.json();
+                renderPipelineResult(data);
+            } catch (err) {
+                appendTerminalLog(`[ERROR] ${err.message}`, 'text-rose-400');
+            }
+        }
+
+        async function submitXml() {
+            const xml = document.getElementById('input-xml').value.trim();
+            if (!xml) return alert("Por favor ingresa XML para procesar.");
+
+            appendTerminalLog("Iniciando auditoría de CFDI 4.0 XML con SAT 69-B...");
+            try {
+                const res = await fetch('/api/ingest-xml', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ xml_content: xml })
+                });
+                const data = await res.json();
+                renderPipelineResult(data);
+            } catch (err) {
+                appendTerminalLog(`[ERROR] ${err.message}`, 'text-rose-400');
+            }
+        }
+
+        async function handleFileUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            appendTerminalLog(`Subiendo requisición '${file.name}' a SharePoint...`);
+            const formData = new FormData();
+            formData.append('file', file);
+
+            try {
+                const res = await fetch('/api/upload-requisition', {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+                renderPipelineResult(data);
+                syncSharePoint();
+            } catch (err) {
+                appendTerminalLog(`[ERROR] ${err.message}`, 'text-rose-400');
+            }
+        }
+
+        async function runPreset(presetId) {
+            appendTerminalLog(`Ejecutando Escenario 1-Click: [${presetId}]...`);
+            try {
+                const res = await fetch(`/api/presets/${presetId}`);
+                const data = await res.json();
+                renderPipelineResult(data);
+                syncSharePoint();
+            } catch (err) {
+                appendTerminalLog(`[ERROR] ${err.message}`, 'text-rose-400');
+            }
+        }
+
+        async function processSharePointInbox() {
+            appendTerminalLog("Procesando cola de entrada de SharePoint /Buzon_Entrada_Requisiciones...");
+            try {
+                const res = await fetch('/api/sharepoint/process-inbox', { method: 'POST' });
+                const data = await res.json();
+                renderPipelineResult(data);
+                syncSharePoint();
+            } catch (err) {
+                appendTerminalLog(`[ERROR] ${err.message}`, 'text-rose-400');
+            }
+        }
+
+        async function syncSharePoint() {
+            try {
+                const res = await fetch('/api/sharepoint/library');
+                const data = await res.json();
+                if (data.folders) {
+                    const buzon = data.folders.buzon_entrada ? data.folders.buzon_entrada.file_count : 0;
+                    const coti = data.folders.en_cotizacion ? data.folders.en_cotizacion.file_count : 0;
+                    const apro = data.folders.aprobados_pagados ? data.folders.aprobados_pagados.file_count : 0;
+                    document.getElementById('sp-count-buzon').innerText = `${buzon} archivos en cola de ingesta`;
+                    document.getElementById('sp-count-cotizacion').innerText = `${coti} RFQ automatizados activos`;
+                    document.getElementById('sp-count-aprobados').innerText = `${apro} expedientes con Póliza & PayPal`;
+                }
+            } catch (err) {
+                console.error("Error syncing sharepoint library:", err);
+            }
+        }
+
+        function renderPipelineResult(data) {
+            document.getElementById('execution-time-label').innerText = `${data.execution_time_seconds || '0.00'}s`;
+
+            // 1. Render Terminal Logs
+            if (data.logs) {
+                const term = document.getElementById('agent-terminal-logs');
+                term.innerHTML = '';
+                data.logs.forEach(l => {
+                    const color = l.status === 'COMPLETED' ? 'text-emerald-400' : (l.status === 'FAILED' ? 'text-rose-400' : 'text-blue-400');
+                    const line = document.createElement('p');
+                    line.className = color;
+                    line.innerText = `> [Paso ${l.step}] ${l.name}: ${l.msg}`;
+                    term.appendChild(line);
+                });
+                term.scrollTop = term.scrollHeight;
+            }
+
+            // 2. Render Orphan Items
+            if (data.requisition && data.requisition.items) {
+                const container = document.getElementById('orphan-items-container');
+                container.innerHTML = '';
+                data.requisition.items.forEach(it => {
+                    const isOrph = it.is_orphan;
+                    const card = document.createElement('div');
+                    card.className = `p-3 rounded-xl border text-xs space-y-1.5 ${isOrph ? 'bg-purple-950/20 border-purple-800/40' : 'bg-gray-900 border-gray-800'}`;
+                    card.innerHTML = `
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-gray-200">${it.normalized_description || it.description}</span>
+                            <span class="px-2 py-0.5 rounded text-[10px] font-mono ${isOrph ? 'bg-purple-500/20 text-purple-300' : 'bg-emerald-500/20 text-emerald-300'}">
+                                ${isOrph ? 'HUÉRFANO CLASIFICADO' : 'CATÁLOGO MAESTRO'}
+                            </span>
+                        </div>
+                        <div class="flex items-center justify-between text-[11px] text-gray-400 font-mono">
+                            <span>SKU: <strong class="text-blue-400">${it.homologated_sku || it.sku}</strong></span>
+                            <span>SAT Clave: <strong class="text-amber-400">${it.sat_clave_prod || '84111500'}</strong></span>
+                            <span>Confianza: <strong class="text-emerald-400">${it.classification_confidence || 95}%</strong></span>
+                        </div>
+                        <p class="text-[10px] text-gray-500 italic">${it.classification_reasoning || 'Homologado con catálogo'}</p>
+                    `;
+                    container.appendChild(card);
+                });
+            }
+
+            // 3. Render RFQ Comparison Matrix
+            if (data.quotes_analysis && data.quotes_analysis.all_quotes) {
+                const container = document.getElementById('rfq-quotes-container');
+                container.innerHTML = '';
+                const winner = data.quotes_analysis.selected_quote;
+                document.getElementById('rfq-savings-tag').innerText = `Ahorro Proyectado: $${data.quotes_analysis.savings_vs_highest || 0} USD`;
+
+                data.quotes_analysis.all_quotes.forEach(q => {
+                    const isWinner = q.vendor.vendor_id === winner.vendor.vendor_id;
+                    const card = document.createElement('div');
+                    card.className = `p-3 rounded-xl border text-xs space-y-1 ${isWinner ? 'bg-emerald-950/20 border-emerald-500/60 shadow-lg shadow-emerald-950/30' : 'bg-gray-900 border-gray-800'}`;
+                    card.innerHTML = `
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-2">
+                                <span class="font-bold text-gray-200">${q.vendor.vendor_name}</span>
+                                ${isWinner ? '<span class="px-2 py-0.5 rounded-full bg-emerald-500 text-gray-950 text-[10px] font-bold">GANADOR</span>' : ''}
+                            </div>
+                            <span class="font-bold text-sm font-mono ${isWinner ? 'text-emerald-400' : 'text-gray-300'}">$${q.grand_total.toFixed(2)} ${q.currency}</span>
+                        </div>
+                        <div class="flex items-center justify-between text-[11px] text-gray-400">
+                            <span>Entrega: <strong>${q.delivery_days} días</strong></span>
+                            <span>Calificación: <strong>${q.vendor.quality_rating}/5.0</strong></span>
+                            <span>Score: <strong>${q.composite_score} pts</strong></span>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            }
+
+            // 4. Render Balanced Accounting Poliza
+            if (data.accounting_poliza) {
+                const pol = data.accounting_poliza;
+                const meta = pol.classification_metadata || {};
+                document.getElementById('badge-poliza-num').innerText = pol.poliza_number;
+                document.getElementById('badge-poliza-erp').innerText = `ERP: ${meta.erp_target || 'SAP'}`;
+
+                document.getElementById('acc-code-display').innerText = `${meta.account_code || '602.40'} - ${meta.account_name || 'Mantenimiento'}`;
+                document.getElementById('acc-dms-display').innerText = `DMS Code: ${meta.dms_equivalent_code || 'N/A'}`;
+                document.getElementById('acc-cc-display').innerText = `${meta.cost_center_id || 'CC-TAL'} - ${meta.cost_center_name || 'Taller'}`;
+                document.getElementById('acc-bu-display').innerText = `${meta.business_unit_name || 'Monterrey'} (${meta.erp_target || 'SAP'})`;
+                document.getElementById('acc-tax-display').innerText = meta.tax_rule || 'IVA 16% Acreditable';
+                document.getElementById('acc-nif-display').innerText = meta.nif_classification || 'NIF C-4';
+
+                const tbody = document.getElementById('poliza-entries-body');
+                tbody.innerHTML = '';
+                pol.entries.forEach(e => {
+                    const row = document.createElement('tr');
+                    row.className = "hover:bg-gray-900/50";
+                    row.innerHTML = `
+                        <td class="py-2 px-3 text-gray-500">${e.line}</td>
+                        <td class="py-2 px-3 text-blue-400 font-bold">${e.account_code}</td>
+                        <td class="py-2 px-3 text-gray-200 font-sans">${e.account_name}</td>
+                        <td class="py-2 px-3 text-gray-400 font-sans text-[11px]">${e.concept}</td>
+                        <td class="py-2 px-3 text-purple-400">${e.cost_center}</td>
+                        <td class="py-2 px-3 text-right font-bold ${e.debe > 0 ? 'text-emerald-400' : 'text-gray-600'}">$${e.debe.toFixed(2)}</td>
+                        <td class="py-2 px-3 text-right font-bold ${e.haber > 0 ? 'text-emerald-400' : 'text-gray-600'}">$${e.haber.toFixed(2)}</td>
+                    `;
+                    tbody.appendChild(row);
+                });
+                document.getElementById('poliza-total-debe').innerText = `$${pol.total_debe.toFixed(2)}`;
+                document.getElementById('poliza-total-haber').innerText = `$${pol.total_haber.toFixed(2)}`;
+            }
+
+            // 5. Render SAT Audit
+            if (data.audit_result) {
+                const aud = data.audit_result;
+                const scorePill = document.getElementById('audit-score-pill');
+                scorePill.innerText = `Score: ${aud.compliance_score}%`;
+                scorePill.className = `text-xs px-2 py-0.5 rounded-full font-mono ${aud.audit_passed ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'}`;
+
+                document.getElementById('audit-efos-status').innerText = aud.audit_passed ? 'PROVEEDOR LIMPIO (NO EFOS)' : 'ALERTA: PROVEEDOR EN LISTA NEGRA';
+                document.getElementById('audit-efos-status').className = aud.audit_passed ? 'text-emerald-400 font-semibold' : 'text-rose-400 font-semibold';
+                document.getElementById('audit-tolerance-status').innerText = aud.audit_passed ? '100% EXACTO (0% Discrepancia)' : 'DISCREPANCIA EN PRECIOS / ARTÍCULOS';
+                document.getElementById('audit-tolerance-status').className = aud.audit_passed ? 'text-emerald-400 font-semibold' : 'text-rose-400 font-semibold';
+                document.getElementById('audit-hash-display').innerText = `SHA-256 Seal: ${aud.audit_hash_sha256 || 'SHA256-POL-OK'}`;
+            }
+
+            // 6. Render PayPal Settlement
+            if (data.settlement) {
+                const s = data.settlement;
+                const modePill = document.getElementById('paypal-mode-pill');
+                modePill.innerText = s.mode.replace(/_/g, ' ');
+                modePill.className = `text-xs px-2.5 py-0.5 rounded-full font-semibold ${s.status === 'SETTLED' ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'}`;
+
+                document.getElementById('paypal-order-id').innerText = s.paypal_order_id || 'N/A';
+                document.getElementById('paypal-payout-id').innerText = s.paypal_payout_batch_id || (s.status === 'SETTLED' ? 'PAYOUT-BATCH-OK' : 'PENDING_APPROVAL');
+                document.getElementById('paypal-amount-paid').innerText = `$${(s.amount_paid || s.amount_pending || 0).toFixed(2)} ${s.currency || 'USD'}`;
+                document.getElementById('paypal-recipient').innerText = s.recipient || 'vendor@example.com';
+
+                const approvalDiv = document.getElementById('paypal-approval-action');
+                if (s.mode === 'HUMAN_APPROVAL_REQUIRED' && s.approval_link) {
+                    approvalDiv.classList.remove('hidden');
+                    document.getElementById('paypal-approval-btn').href = s.approval_link;
+                } else {
+                    approvalDiv.classList.add('hidden');
+                }
+            }
+        }
+
+        function appendTerminalLog(msg, colorClass = 'text-gray-300') {
+            const term = document.getElementById('agent-terminal-logs');
+            const line = document.createElement('p');
+            line.className = colorClass;
+            line.innerText = `> ${msg}`;
+            term.appendChild(line);
+            term.scrollTop = term.scrollHeight;
+        }
+
+        // Initialize library sync on load
+        window.onload = () => {
+            syncSharePoint();
+            runPreset('sharepoint-fma017');
+        };
+    </script>
+</body>
+</html>

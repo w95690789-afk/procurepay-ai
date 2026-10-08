@@ -1,0 +1,318 @@
+{
+  "metadata": {
+    "folio_corporativo": "REQ-DICT-20261008150623",
+    "sharepoint_site": "https://corporativo.sharepoint.com/sites/CISA-Compras",
+    "fecha_archivado": "2026-10-08T15:06:27.336290",
+    "estatus_final": "PAGADO_Y_CONTABILIZADO_EN_ERP",
+    "auditor_responsable": "ProcurePay Autonomous AI Engine v2.5"
+  },
+  "requisicion_origen": {
+    "folio": "REQ-ROBOT-001",
+    "department": "Línea Robótica Ensamblado",
+    "requested_by": "Ing. Laura Treviño - Dir. Operaciones",
+    "currency": "USD",
+    "items": [
+      {
+        "sku": "ELEC-SEN-001",
+        "description": "Sensor Fotoeléctrico Omron E3Z-D61 NPN",
+        "quantity": 8,
+        "unit": "PZA",
+        "estimated_unit_price": 145.0,
+        "original_description": "Sensor Fotoeléctrico Omron E3Z-D61 NPN",
+        "normalized_description": "Sensor Fotoelectrico Omron E3Z-D61 NPN Difuso",
+        "homologated_sku": "ELEC-SEN-001",
+        "category": "Material Eléctrico y Automatización",
+        "sat_clave_prod": "39121500",
+        "is_orphan": false,
+        "classification_confidence": 100,
+        "classification_tier": "TIER_0_MASTER_CATALOG",
+        "classification_reasoning": "Coincidencia exacta con SKU del Catálogo Maestro Corporativo.",
+        "needs_catalog_registration": false
+      },
+      {
+        "sku": "ROB-SERVO-01",
+        "description": "Servomotor Fanuc 2.5kW AC Servo con Encoder",
+        "quantity": 1,
+        "unit": "PZA",
+        "estimated_unit_price": 1200.0,
+        "original_description": "Servomotor Fanuc 2.5kW AC Servo con Encoder",
+        "normalized_description": "Servomotor AC Fanuc 2.5kW con Encoder",
+        "homologated_sku": "MAT-AUT-042",
+        "category": "Material Eléctrico y Automatización",
+        "sat_clave_prod": "28151500",
+        "is_orphan": true,
+        "classification_confidence": 95,
+        "classification_tier": "TIER_1_GROQ_LLM (qwen/qwen3.8-27b)",
+        "classification_reasoning": "El artículo es un componente de control de movimiento (servomotor) de la marca Fanuc, clasificado bajo Material Eléctrico y Automatización. La clave SAT 28151500 corresponde a 'Motores eléctricos' o componentes similares de potencia. El precio estimado se basa en el rango de mercado para servomotores de 2.5kW de alta precisión industrial.",
+        "needs_catalog_registration": true
+      }
+    ],
+    "requisition_id": "REQ-DICT-20261008150623"
+  },
+  "cuadro_comparativo_rfq": {
+    "requisition_id": "REQ-DICT-20261008150623",
+    "selected_quote": {
+      "vendor": {
+        "vendor_id": "VEND-001",
+        "vendor_name": "ProServicios Express Logistics",
+        "paypal_email": "vendor-proserv@example.com",
+        "rfc": "PEL180420TR1",
+        "sat_69b_status": "CLEAN",
+        "price_multiplier": 0.95,
+        "lead_time_days": 2,
+        "quality_rating": 4.9,
+        "payment_terms": "PayPal Immediate Payout"
+      },
+      "items": [
+        {
+          "sku": "ELEC-SEN-001",
+          "description": "Sensor Fotoelectrico Omron E3Z-D61 NPN Difuso",
+          "category": "Material Eléctrico y Automatización",
+          "quantity": 8,
+          "unit": "PZA",
+          "unit_price": 137.75,
+          "subtotal": 1102.0
+        },
+        {
+          "sku": "MAT-AUT-042",
+          "description": "Servomotor AC Fanuc 2.5kW con Encoder",
+          "category": "Material Eléctrico y Automatización",
+          "quantity": 1,
+          "unit": "PZA",
+          "unit_price": 1140.0,
+          "subtotal": 1140.0
+        }
+      ],
+      "subtotal": 2242.0,
+      "tax": 358.72,
+      "grand_total": 2600.72,
+      "currency": "USD",
+      "delivery_days": 2,
+      "composite_score": 27.4
+    },
+    "all_quotes": [
+      {
+        "vendor": {
+          "vendor_id": "VEND-001",
+          "vendor_name": "ProServicios Express Logistics",
+          "paypal_email": "vendor-proserv@example.com",
+          "rfc": "PEL180420TR1",
+          "sat_69b_status": "CLEAN",
+          "price_multiplier": 0.95,
+          "lead_time_days": 2,
+          "quality_rating": 4.9,
+          "payment_terms": "PayPal Immediate Payout"
+        },
+        "items": [
+          {
+            "sku": "ELEC-SEN-001",
+            "description": "Sensor Fotoelectrico Omron E3Z-D61 NPN Difuso",
+            "category": "Material Eléctrico y Automatización",
+            "quantity": 8,
+            "unit": "PZA",
+            "unit_price": 137.75,
+            "subtotal": 1102.0
+          },
+          {
+            "sku": "MAT-AUT-042",
+            "description": "Servomotor AC Fanuc 2.5kW con Encoder",
+            "category": "Material Eléctrico y Automatización",
+            "quantity": 1,
+            "unit": "PZA",
+            "unit_price": 1140.0,
+            "subtotal": 1140.0
+          }
+        ],
+        "subtotal": 2242.0,
+        "tax": 358.72,
+        "grand_total": 2600.72,
+        "currency": "USD",
+        "delivery_days": 2,
+        "composite_score": 27.4
+      },
+      {
+        "vendor": {
+          "vendor_id": "VEND-002",
+          "vendor_name": "Suministros Industriales del Norte S.A. de C.V.",
+          "paypal_email": "ventas-norte@example.com",
+          "rfc": "SIN100915AA2",
+          "sat_69b_status": "CLEAN",
+          "price_multiplier": 1.05,
+          "lead_time_days": 4,
+          "quality_rating": 4.7,
+          "payment_terms": "Net 30 Days"
+        },
+        "items": [
+          {
+            "sku": "ELEC-SEN-001",
+            "description": "Sensor Fotoelectrico Omron E3Z-D61 NPN Difuso",
+            "category": "Material Eléctrico y Automatización",
+            "quantity": 8,
+            "unit": "PZA",
+            "unit_price": 152.25,
+            "subtotal": 1218.0
+          },
+          {
+            "sku": "MAT-AUT-042",
+            "description": "Servomotor AC Fanuc 2.5kW con Encoder",
+            "category": "Material Eléctrico y Automatización",
+            "quantity": 1,
+            "unit": "PZA",
+            "unit_price": 1260.0,
+            "subtotal": 1260.0
+          }
+        ],
+        "subtotal": 2478.0,
+        "tax": 396.48,
+        "grand_total": 2874.48,
+        "currency": "USD",
+        "delivery_days": 4,
+        "composite_score": 20.6
+      },
+      {
+        "vendor": {
+          "vendor_id": "VEND-003",
+          "vendor_name": "ElectroPartes & Automatización Global",
+          "paypal_email": "pagos-electropartes@example.com",
+          "rfc": "EAG150311KJ9",
+          "sat_69b_status": "CLEAN",
+          "price_multiplier": 1.15,
+          "lead_time_days": 1,
+          "quality_rating": 4.8,
+          "payment_terms": "PayPal Orders Checkout"
+        },
+        "items": [
+          {
+            "sku": "ELEC-SEN-001",
+            "description": "Sensor Fotoelectrico Omron E3Z-D61 NPN Difuso",
+            "category": "Material Eléctrico y Automatización",
+            "quantity": 8,
+            "unit": "PZA",
+            "unit_price": 166.75,
+            "subtotal": 1334.0
+          },
+          {
+            "sku": "MAT-AUT-042",
+            "description": "Servomotor AC Fanuc 2.5kW con Encoder",
+            "category": "Material Eléctrico y Automatización",
+            "quantity": 1,
+            "unit": "PZA",
+            "unit_price": 1380.0,
+            "subtotal": 1380.0
+          }
+        ],
+        "subtotal": 2714.0,
+        "tax": 434.24,
+        "grand_total": 3148.24,
+        "currency": "USD",
+        "delivery_days": 1,
+        "composite_score": 39.6
+      }
+    ],
+    "savings_vs_highest": 547.52,
+    "selection_reason": "Mejor costo total ($2600.72) con entrega en 2 días y calificación 4.9/5.0"
+  },
+  "auditoria_3way_matching": {
+    "audit_id": "AUD-FAC-1791489985",
+    "uuid_fiscal": "UUID-AB484CBFE4E84BB6",
+    "audit_hash": "da7f53ac69bad672a58c4e5893405538eab4c6ffb60e76b7a7b4591fb92746dd",
+    "sat_verification": "CUMPLIMIENTO_FISCAL_SAT_VERIFICADO",
+    "audit_passed": true,
+    "compliance_score": 100,
+    "checks_passed": 6,
+    "total_checks": 6,
+    "discrepancies": [],
+    "items_audit": [
+      {
+        "sku": "ELEC-SEN-001",
+        "status": "MATCHED_OK",
+        "price": 137.75
+      },
+      {
+        "sku": "MAT-AUT-042",
+        "status": "MATCHED_OK",
+        "price": 1140.0
+      }
+    ],
+    "approved_amount": 2600.72,
+    "currency": "USD",
+    "vendor_paypal_email": "vendor-proserv@example.com",
+    "summary": "Auditoría Forense Exitosa: 3-Way Matching 100% verificado sin incidencias SAT ni sobreprecios."
+  },
+  "asiento_contable_poliza": {
+    "poliza_number": "POL-DIA-202610081506",
+    "poliza_type": "DIARIO_PROVISION_PASIVO",
+    "date": "2026-10-08 15:06:27",
+    "folio_origen": "REQ-DICT-20261008150623",
+    "beneficiary_vendor": "ProServicios Express Logistics",
+    "currency": "USD",
+    "total_debe": 2600.72,
+    "total_haber": 2600.72,
+    "is_balanced": true,
+    "classification_metadata": {
+      "account_code": "120.03",
+      "account_name": "Almacén - Refacciones y Mantenimiento",
+      "account_type": "Activo Circulante",
+      "nature": "Deudora",
+      "cost_center_id": "CC-REF",
+      "cost_center_name": "Almacén y Refacciones Industriales",
+      "cost_center_responsible": "Ing. Sofía Valdés",
+      "business_unit_id": "UN-MX-MTY",
+      "business_unit_name": "Planta Ensamble Monterrey",
+      "erp_target": "SAP Business One",
+      "dms_equivalent_code": "115-030-01",
+      "dms_full_matrix": {
+        "SAP": "115-030-01",
+        "Intelisis": "INV-REF-01",
+        "Dynamics": "INV-SPARES-03",
+        "CONTPAQi": "120-003-000"
+      },
+      "tax_rule": "Activo Circulante - Inventario de Refacciones Críticas (NIF C-4)",
+      "retention_iva_rate": 0.0,
+      "retention_isr_rate": 0.0,
+      "nif_classification": "NIF C-4 (Inventarios e Insumos) / NIF D-1 (Ingresos y Gastos Ordinarios)",
+      "ai_explanation": "El concepto 'Sensor Fotoelectrico Omron E3Z-D61 NPN Difuso' clasificado en 'Material Eléctrico y Automatización' corresponde a la cuenta '120.03 - Almacén - Refacciones y Mantenimiento', asignado al Centro de Costos 'Almacén y Refacciones Industriales' (CC-REF) para la entidad 'Planta Ensamble Monterrey' (SAP Business One). Criterio fiscal: Activo Circulante - Inventario de Refacciones Críticas (NIF C-4)."
+    },
+    "entries": [
+      {
+        "line": 1,
+        "account_code": "120.03",
+        "account_name": "Almacén - Refacciones y Mantenimiento",
+        "concept": "Provisión compra Folio REQ-DICT-20261008150623 - ProServicios Express Logistics",
+        "cost_center": "CC-REF",
+        "debe": 2242.0,
+        "haber": 0.0
+      },
+      {
+        "line": 2,
+        "account_code": "118.01",
+        "account_name": "IVA Acreditable Pagado (16%)",
+        "concept": "IVA Trasladado 16% en compra Folio REQ-DICT-20261008150623",
+        "cost_center": "CC-REF",
+        "debe": 358.72,
+        "haber": 0.0
+      },
+      {
+        "line": 3,
+        "account_code": "201.01",
+        "account_name": "Proveedores Nacionales - ProServicios Express Logistics",
+        "concept": "Pasivo registrado pendiente de liquidación Folio REQ-DICT-20261008150623",
+        "cost_center": "CC-REF",
+        "debe": 0.0,
+        "haber": 2600.72
+      }
+    ],
+    "audit_hash": "SHA256-POL-772F704DF3E588C1"
+  },
+  "liquidacion_paypal": {
+    "mode": "HUMAN_APPROVAL_REQUIRED",
+    "status": "PENDING_EXECUTIVE_APPROVAL",
+    "paypal_order_id": "67N45320GE301173R",
+    "paypal_order_status": "CREATED",
+    "approval_link": "https://www.sandbox.paypal.com/checkoutnow?token=67N45320GE301173R",
+    "amount_pending": 2600.72,
+    "currency": "USD",
+    "recipient": "vendor-proserv@example.com",
+    "reason": "El monto ($2600.72 USD) supera el umbral autónomo de $500.0 USD."
+  }
+}

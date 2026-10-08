@@ -1,0 +1,269 @@
+{
+  "metadata": {
+    "folio_corporativo": "REQ-DICT-20261008150615",
+    "sharepoint_site": "https://corporativo.sharepoint.com/sites/CISA-Compras",
+    "fecha_archivado": "2026-10-08T15:06:23.240940",
+    "estatus_final": "PAGADO_Y_CONTABILIZADO_EN_ERP",
+    "auditor_responsable": "ProcurePay Autonomous AI Engine v2.5"
+  },
+  "requisicion_origen": {
+    "folio": "REQ-LOG-7721",
+    "department": "Logística y Distribución",
+    "requested_by": "Lic. Javier Ochoa",
+    "currency": "USD",
+    "items": [
+      {
+        "sku": "LOG-FLE-01",
+        "description": "Servicio de flete y traslado de 5 unidades en madrina planta Hermosillo",
+        "quantity": 1,
+        "unit": "SRV",
+        "estimated_unit_price": 320.0,
+        "original_description": "Servicio de flete y traslado de 5 unidades en madrina planta Hermosillo",
+        "normalized_description": "Servicio de Flete y Traslado de Carga (5 Unidades en Madrina) - Planta Hermosillo",
+        "homologated_sku": "SER-LOG-001",
+        "category": "Servicios y Logística",
+        "sat_clave_prod": "99999999",
+        "is_orphan": true,
+        "classification_confidence": 95,
+        "classification_tier": "TIER_1_GROQ_LLM (qwen/qwen3.8-27b)",
+        "classification_reasoning": "El artículo corresponde a un servicio de transporte terrestre de carga industrial (flete), no a un bien tangible. Se clasifica en 'Servicios y Logística'. Para servicios, la Clave SAT estándar es 99999999 (Otros servicios). La unidad de compra se define como PZA (pieza/servicio individual) por el movimiento específico de 5 unidades. El precio estimado refleja un flete regional estándar en México para carga consolidada.",
+        "needs_catalog_registration": true
+      }
+    ],
+    "requisition_id": "REQ-DICT-20261008150615"
+  },
+  "cuadro_comparativo_rfq": {
+    "requisition_id": "REQ-DICT-20261008150615",
+    "selected_quote": {
+      "vendor": {
+        "vendor_id": "VEND-001",
+        "vendor_name": "ProServicios Express Logistics",
+        "paypal_email": "vendor-proserv@example.com",
+        "rfc": "PEL180420TR1",
+        "sat_69b_status": "CLEAN",
+        "price_multiplier": 0.95,
+        "lead_time_days": 2,
+        "quality_rating": 4.9,
+        "payment_terms": "PayPal Immediate Payout"
+      },
+      "items": [
+        {
+          "sku": "SER-LOG-001",
+          "description": "Servicio de Flete y Traslado de Carga (5 Unidades en Madrina) - Planta Hermosillo",
+          "category": "Servicios y Logística",
+          "quantity": 1,
+          "unit": "SRV",
+          "unit_price": 304.0,
+          "subtotal": 304.0
+        }
+      ],
+      "subtotal": 304.0,
+      "tax": 48.64,
+      "grand_total": 352.64,
+      "currency": "USD",
+      "delivery_days": 2,
+      "composite_score": 28.9
+    },
+    "all_quotes": [
+      {
+        "vendor": {
+          "vendor_id": "VEND-001",
+          "vendor_name": "ProServicios Express Logistics",
+          "paypal_email": "vendor-proserv@example.com",
+          "rfc": "PEL180420TR1",
+          "sat_69b_status": "CLEAN",
+          "price_multiplier": 0.95,
+          "lead_time_days": 2,
+          "quality_rating": 4.9,
+          "payment_terms": "PayPal Immediate Payout"
+        },
+        "items": [
+          {
+            "sku": "SER-LOG-001",
+            "description": "Servicio de Flete y Traslado de Carga (5 Unidades en Madrina) - Planta Hermosillo",
+            "category": "Servicios y Logística",
+            "quantity": 1,
+            "unit": "SRV",
+            "unit_price": 304.0,
+            "subtotal": 304.0
+          }
+        ],
+        "subtotal": 304.0,
+        "tax": 48.64,
+        "grand_total": 352.64,
+        "currency": "USD",
+        "delivery_days": 2,
+        "composite_score": 28.9
+      },
+      {
+        "vendor": {
+          "vendor_id": "VEND-002",
+          "vendor_name": "Suministros Industriales del Norte S.A. de C.V.",
+          "paypal_email": "ventas-norte@example.com",
+          "rfc": "SIN100915AA2",
+          "sat_69b_status": "CLEAN",
+          "price_multiplier": 1.05,
+          "lead_time_days": 4,
+          "quality_rating": 4.7,
+          "payment_terms": "Net 30 Days"
+        },
+        "items": [
+          {
+            "sku": "SER-LOG-001",
+            "description": "Servicio de Flete y Traslado de Carga (5 Unidades en Madrina) - Planta Hermosillo",
+            "category": "Servicios y Logística",
+            "quantity": 1,
+            "unit": "SRV",
+            "unit_price": 336.0,
+            "subtotal": 336.0
+          }
+        ],
+        "subtotal": 336.0,
+        "tax": 53.76,
+        "grand_total": 389.76,
+        "currency": "USD",
+        "delivery_days": 4,
+        "composite_score": 21.9
+      },
+      {
+        "vendor": {
+          "vendor_id": "VEND-003",
+          "vendor_name": "ElectroPartes & Automatización Global",
+          "paypal_email": "pagos-electropartes@example.com",
+          "rfc": "EAG150311KJ9",
+          "sat_69b_status": "CLEAN",
+          "price_multiplier": 1.15,
+          "lead_time_days": 1,
+          "quality_rating": 4.8,
+          "payment_terms": "PayPal Orders Checkout"
+        },
+        "items": [
+          {
+            "sku": "SER-LOG-001",
+            "description": "Servicio de Flete y Traslado de Carga (5 Unidades en Madrina) - Planta Hermosillo",
+            "category": "Servicios y Logística",
+            "quantity": 1,
+            "unit": "SRV",
+            "unit_price": 368.0,
+            "subtotal": 368.0
+          }
+        ],
+        "subtotal": 368.0,
+        "tax": 58.88,
+        "grand_total": 426.88,
+        "currency": "USD",
+        "delivery_days": 1,
+        "composite_score": 40.8
+      }
+    ],
+    "savings_vs_highest": 74.24,
+    "selection_reason": "Mejor costo total ($352.64) con entrega en 2 días y calificación 4.9/5.0"
+  },
+  "auditoria_3way_matching": {
+    "audit_id": "AUD-FAC-1791489980",
+    "uuid_fiscal": "UUID-C7803D5F4AACC1AF",
+    "audit_hash": "19f807b01d09318d8de4e90e4266a3f1effe18da1e8864e1f11542483085a801",
+    "sat_verification": "CUMPLIMIENTO_FISCAL_SAT_VERIFICADO",
+    "audit_passed": true,
+    "compliance_score": 100,
+    "checks_passed": 6,
+    "total_checks": 6,
+    "discrepancies": [],
+    "items_audit": [
+      {
+        "sku": "SER-LOG-001",
+        "status": "MATCHED_OK",
+        "price": 304.0
+      }
+    ],
+    "approved_amount": 352.64,
+    "currency": "USD",
+    "vendor_paypal_email": "vendor-proserv@example.com",
+    "summary": "Auditoría Forense Exitosa: 3-Way Matching 100% verificado sin incidencias SAT ni sobreprecios."
+  },
+  "asiento_contable_poliza": {
+    "poliza_number": "POL-EGR-202610081506",
+    "poliza_type": "EGRESO_PAGO_ELECTRONICO",
+    "date": "2026-10-08 15:06:23",
+    "folio_origen": "REQ-DICT-20261008150615",
+    "beneficiary_vendor": "ProServicios Express Logistics",
+    "currency": "USD",
+    "total_debe": 352.64,
+    "total_haber": 352.64,
+    "is_balanced": true,
+    "classification_metadata": {
+      "account_code": "602.10",
+      "account_name": "Gastos de Operación - Fletes, Madrinas y Acarreos",
+      "account_type": "Gasto Operativo",
+      "nature": "Deudora",
+      "cost_center_id": "CC-LOG",
+      "cost_center_name": "Logística, Fletes y Distribución",
+      "cost_center_responsible": "Lic. Javier Ochoa",
+      "business_unit_id": "UN-MX-MTY",
+      "business_unit_name": "Planta Ensamble Monterrey",
+      "erp_target": "SAP Business One",
+      "dms_equivalent_code": "600-100-05",
+      "dms_full_matrix": {
+        "SAP": "600-100-05",
+        "Intelisis": "GAS-FLE-01",
+        "Dynamics": "EXP-FREIGHT-10",
+        "CONTPAQi": "602-010-000"
+      },
+      "tax_rule": "IVA 16% con Retención 4% de IVA (Art. 1-A Fracc. II Inciso c LIVA)",
+      "retention_iva_rate": 0.04,
+      "retention_isr_rate": 0.0,
+      "nif_classification": "NIF C-4 (Inventarios e Insumos) / NIF D-1 (Ingresos y Gastos Ordinarios)",
+      "ai_explanation": "El concepto 'Servicio de Flete y Traslado de Carga (5 Unidades en Madrina) - Planta Hermosillo' clasificado en 'Servicios y Logística' corresponde a la cuenta '602.10 - Gastos de Operación - Fletes, Madrinas y Acarreos', asignado al Centro de Costos 'Logística, Fletes y Distribución' (CC-LOG) para la entidad 'Planta Ensamble Monterrey' (SAP Business One). Criterio fiscal: IVA 16% con Retención 4% de IVA (Art. 1-A Fracc. II Inciso c LIVA)."
+    },
+    "entries": [
+      {
+        "line": 1,
+        "account_code": "602.10",
+        "account_name": "Gastos de Operación - Fletes, Madrinas y Acarreos",
+        "concept": "Provisión compra Folio REQ-DICT-20261008150615 - ProServicios Express Logistics",
+        "cost_center": "CC-LOG",
+        "debe": 304.0,
+        "haber": 0.0
+      },
+      {
+        "line": 2,
+        "account_code": "118.01",
+        "account_name": "IVA Acreditable Pagado (16%)",
+        "concept": "IVA Trasladado 16% en compra Folio REQ-DICT-20261008150615",
+        "cost_center": "CC-LOG",
+        "debe": 48.64,
+        "haber": 0.0
+      },
+      {
+        "line": 3,
+        "account_code": "216.01",
+        "account_name": "Impuestos Retenidos - IVA 4% (Fletes)",
+        "concept": "Retención 4% IVA según Art. 1-A LIVA Folio REQ-DICT-20261008150615",
+        "cost_center": "CC-ADM",
+        "debe": 0.0,
+        "haber": 12.16
+      },
+      {
+        "line": 4,
+        "account_code": "102.01",
+        "account_name": "Bancos Nacionales (Pasarela PayPal Settlement)",
+        "concept": "Liquidación instantánea PayPal Payout ID: PAYOUT-1791489982",
+        "cost_center": "CC-ADM",
+        "debe": 0.0,
+        "haber": 340.48
+      }
+    ],
+    "audit_hash": "SHA256-POL-3DA58999D6D647EB"
+  },
+  "liquidacion_paypal": {
+    "mode": "AUTONOMOUS_ZERO_TOUCH",
+    "status": "SETTLED",
+    "paypal_order_id": "2Y8943585H082302V",
+    "paypal_order_status": "CREATED",
+    "paypal_payout_batch_id": "PAYOUT-1791489982",
+    "amount_paid": 352.64,
+    "currency": "USD",
+    "recipient": "vendor-proserv@example.com",
+    "timestamp": "2026-10-08 15:06:23"
+  }
+}

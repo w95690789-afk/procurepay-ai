@@ -1,0 +1,30 @@
+{
+  "folio": "FMA-017-REQ-8821",
+  "department": "Planta Ensamble Automotriz - Bahía 4",
+  "solicitante": "Ing. Roberto Garza - Jefe de Turno",
+  "fecha_solicitud": "2026-10-08",
+  "prioridad": "ALTA",
+  "items": [
+    {
+      "sku": "SKU-HUERF-01",
+      "descripcion": "Guantes de nitrilo grado industrial 6 milipulgadas caja 100",
+      "cantidad": 5,
+      "unidad": "CAJA",
+      "precio_estimado": 42.0
+    },
+    {
+      "sku": "SKU-ELEC-44",
+      "descripcion": "Sensor inductivo M12 PNP NO alcance 4mm",
+      "cantidad": 2,
+      "unidad": "PZA",
+      "precio_estimado": 65.0
+    },
+    {
+      "sku": "SKU-HUERF-02",
+      "descripcion": "Desengrasante biodegradable de alta resistencia tambor 20L",
+      "cantidad": 1,
+      "unidad": "TAMBOR",
+      "precio_estimado": 85.0
+    }
+  ]
+}

@@ -1,0 +1,376 @@
+{
+  "metadata": {
+    "folio_corporativo": "REQ-DICT-20261008150612",
+    "sharepoint_site": "https://corporativo.sharepoint.com/sites/CISA-Compras",
+    "fecha_archivado": "2026-10-08T15:06:15.512539",
+    "estatus_final": "PAGADO_Y_CONTABILIZADO_EN_ERP",
+    "auditor_responsable": "ProcurePay Autonomous AI Engine v2.5"
+  },
+  "requisicion_origen": {
+    "folio": "FMA017-FOL-9042",
+    "department": "Mantenimiento Industrial y Automatización",
+    "requested_by": "Ing. Carlos Mendoza (Jefe de Planta)",
+    "currency": "USD",
+    "items": [
+      {
+        "sku": "SKU-HUERF-11",
+        "description": "Guantes de nitrilo calibre 6mil caja 100",
+        "quantity": 4,
+        "unit": "CAJA",
+        "estimated_unit_price": 40.0,
+        "original_description": "Guantes de nitrilo calibre 6mil caja 100",
+        "normalized_description": "Guantes de Nitrilo Grado Industrial Calibre 6mil (Caja 100 pzas)",
+        "homologated_sku": "SEG-GNT-101",
+        "category": "Seguridad Industrial y EPP",
+        "sat_clave_prod": "46181504",
+        "is_orphan": false,
+        "classification_confidence": 95,
+        "classification_tier": "TIER_0_ALIAS_MATCH",
+        "classification_reasoning": "Coincidencia directa por alias de ingeniería 'guantes de nitrilo'.",
+        "needs_catalog_registration": false
+      },
+      {
+        "sku": "ELEC-SEN-002",
+        "description": "Sensor inductivo M12 PNP NO alcance 4mm",
+        "quantity": 2,
+        "unit": "PZA",
+        "estimated_unit_price": 65.0,
+        "original_description": "Sensor inductivo M12 PNP NO alcance 4mm",
+        "normalized_description": "Sensor Inductivo M12 PNP NO Alcance 4mm",
+        "homologated_sku": "ELEC-SEN-002",
+        "category": "Material Eléctrico y Automatización",
+        "sat_clave_prod": "39121500",
+        "is_orphan": false,
+        "classification_confidence": 100,
+        "classification_tier": "TIER_0_MASTER_CATALOG",
+        "classification_reasoning": "Coincidencia exacta con SKU del Catálogo Maestro Corporativo.",
+        "needs_catalog_registration": false
+      },
+      {
+        "sku": "SKU-HUERF-12",
+        "description": "Desengrasante biodegradable tambor 20L",
+        "quantity": 1,
+        "unit": "TAMBOR",
+        "estimated_unit_price": 85.0,
+        "original_description": "Desengrasante biodegradable tambor 20L",
+        "normalized_description": "Desengrasante Biodegradable Industrial Heavy Duty Tambor 20 Litros",
+        "homologated_sku": "QUIM-DES-501",
+        "category": "Químicos y Limpieza Industrial",
+        "sat_clave_prod": "47131800",
+        "is_orphan": false,
+        "classification_confidence": 95,
+        "classification_tier": "TIER_0_ALIAS_MATCH",
+        "classification_reasoning": "Coincidencia directa por alias de ingeniería 'desengrasante'.",
+        "needs_catalog_registration": false
+      }
+    ],
+    "requisition_id": "REQ-DICT-20261008150612"
+  },
+  "cuadro_comparativo_rfq": {
+    "requisition_id": "REQ-DICT-20261008150612",
+    "selected_quote": {
+      "vendor": {
+        "vendor_id": "VEND-001",
+        "vendor_name": "ProServicios Express Logistics",
+        "paypal_email": "vendor-proserv@example.com",
+        "rfc": "PEL180420TR1",
+        "sat_69b_status": "CLEAN",
+        "price_multiplier": 0.95,
+        "lead_time_days": 2,
+        "quality_rating": 4.9,
+        "payment_terms": "PayPal Immediate Payout"
+      },
+      "items": [
+        {
+          "sku": "SEG-GNT-101",
+          "description": "Guantes de Nitrilo Grado Industrial Calibre 6mil (Caja 100 pzas)",
+          "category": "Seguridad Industrial y EPP",
+          "quantity": 4,
+          "unit": "CAJA",
+          "unit_price": 38.0,
+          "subtotal": 152.0
+        },
+        {
+          "sku": "ELEC-SEN-002",
+          "description": "Sensor Inductivo M12 PNP NO Alcance 4mm",
+          "category": "Material Eléctrico y Automatización",
+          "quantity": 2,
+          "unit": "PZA",
+          "unit_price": 61.75,
+          "subtotal": 123.5
+        },
+        {
+          "sku": "QUIM-DES-501",
+          "description": "Desengrasante Biodegradable Industrial Heavy Duty Tambor 20 Litros",
+          "category": "Químicos y Limpieza Industrial",
+          "quantity": 1,
+          "unit": "TAMBOR",
+          "unit_price": 80.75,
+          "subtotal": 80.75
+        }
+      ],
+      "subtotal": 356.25,
+      "tax": 57.0,
+      "grand_total": 413.25,
+      "currency": "USD",
+      "delivery_days": 2,
+      "composite_score": 28.6
+    },
+    "all_quotes": [
+      {
+        "vendor": {
+          "vendor_id": "VEND-001",
+          "vendor_name": "ProServicios Express Logistics",
+          "paypal_email": "vendor-proserv@example.com",
+          "rfc": "PEL180420TR1",
+          "sat_69b_status": "CLEAN",
+          "price_multiplier": 0.95,
+          "lead_time_days": 2,
+          "quality_rating": 4.9,
+          "payment_terms": "PayPal Immediate Payout"
+        },
+        "items": [
+          {
+            "sku": "SEG-GNT-101",
+            "description": "Guantes de Nitrilo Grado Industrial Calibre 6mil (Caja 100 pzas)",
+            "category": "Seguridad Industrial y EPP",
+            "quantity": 4,
+            "unit": "CAJA",
+            "unit_price": 38.0,
+            "subtotal": 152.0
+          },
+          {
+            "sku": "ELEC-SEN-002",
+            "description": "Sensor Inductivo M12 PNP NO Alcance 4mm",
+            "category": "Material Eléctrico y Automatización",
+            "quantity": 2,
+            "unit": "PZA",
+            "unit_price": 61.75,
+            "subtotal": 123.5
+          },
+          {
+            "sku": "QUIM-DES-501",
+            "description": "Desengrasante Biodegradable Industrial Heavy Duty Tambor 20 Litros",
+            "category": "Químicos y Limpieza Industrial",
+            "quantity": 1,
+            "unit": "TAMBOR",
+            "unit_price": 80.75,
+            "subtotal": 80.75
+          }
+        ],
+        "subtotal": 356.25,
+        "tax": 57.0,
+        "grand_total": 413.25,
+        "currency": "USD",
+        "delivery_days": 2,
+        "composite_score": 28.6
+      },
+      {
+        "vendor": {
+          "vendor_id": "VEND-002",
+          "vendor_name": "Suministros Industriales del Norte S.A. de C.V.",
+          "paypal_email": "ventas-norte@example.com",
+          "rfc": "SIN100915AA2",
+          "sat_69b_status": "CLEAN",
+          "price_multiplier": 1.05,
+          "lead_time_days": 4,
+          "quality_rating": 4.7,
+          "payment_terms": "Net 30 Days"
+        },
+        "items": [
+          {
+            "sku": "SEG-GNT-101",
+            "description": "Guantes de Nitrilo Grado Industrial Calibre 6mil (Caja 100 pzas)",
+            "category": "Seguridad Industrial y EPP",
+            "quantity": 4,
+            "unit": "CAJA",
+            "unit_price": 42.0,
+            "subtotal": 168.0
+          },
+          {
+            "sku": "ELEC-SEN-002",
+            "description": "Sensor Inductivo M12 PNP NO Alcance 4mm",
+            "category": "Material Eléctrico y Automatización",
+            "quantity": 2,
+            "unit": "PZA",
+            "unit_price": 68.25,
+            "subtotal": 136.5
+          },
+          {
+            "sku": "QUIM-DES-501",
+            "description": "Desengrasante Biodegradable Industrial Heavy Duty Tambor 20 Litros",
+            "category": "Químicos y Limpieza Industrial",
+            "quantity": 1,
+            "unit": "TAMBOR",
+            "unit_price": 89.25,
+            "subtotal": 89.25
+          }
+        ],
+        "subtotal": 393.75,
+        "tax": 63.0,
+        "grand_total": 456.75,
+        "currency": "USD",
+        "delivery_days": 4,
+        "composite_score": 21.7
+      },
+      {
+        "vendor": {
+          "vendor_id": "VEND-003",
+          "vendor_name": "ElectroPartes & Automatización Global",
+          "paypal_email": "pagos-electropartes@example.com",
+          "rfc": "EAG150311KJ9",
+          "sat_69b_status": "CLEAN",
+          "price_multiplier": 1.15,
+          "lead_time_days": 1,
+          "quality_rating": 4.8,
+          "payment_terms": "PayPal Orders Checkout"
+        },
+        "items": [
+          {
+            "sku": "SEG-GNT-101",
+            "description": "Guantes de Nitrilo Grado Industrial Calibre 6mil (Caja 100 pzas)",
+            "category": "Seguridad Industrial y EPP",
+            "quantity": 4,
+            "unit": "CAJA",
+            "unit_price": 46.0,
+            "subtotal": 184.0
+          },
+          {
+            "sku": "ELEC-SEN-002",
+            "description": "Sensor Inductivo M12 PNP NO Alcance 4mm",
+            "category": "Material Eléctrico y Automatización",
+            "quantity": 2,
+            "unit": "PZA",
+            "unit_price": 74.75,
+            "subtotal": 149.5
+          },
+          {
+            "sku": "QUIM-DES-501",
+            "description": "Desengrasante Biodegradable Industrial Heavy Duty Tambor 20 Litros",
+            "category": "Químicos y Limpieza Industrial",
+            "quantity": 1,
+            "unit": "TAMBOR",
+            "unit_price": 97.75,
+            "subtotal": 97.75
+          }
+        ],
+        "subtotal": 431.25,
+        "tax": 69.0,
+        "grand_total": 500.25,
+        "currency": "USD",
+        "delivery_days": 1,
+        "composite_score": 40.6
+      }
+    ],
+    "savings_vs_highest": 87.0,
+    "selection_reason": "Mejor costo total ($413.25) con entrega en 2 días y calificación 4.9/5.0"
+  },
+  "auditoria_3way_matching": {
+    "audit_id": "AUD-FAC-1791489972",
+    "uuid_fiscal": "UUID-BD511A479431BAA8",
+    "audit_hash": "38d044d70745d4696a23660c48b2a13e68ed71703ac89bab53cfd753827c9449",
+    "sat_verification": "CUMPLIMIENTO_FISCAL_SAT_VERIFICADO",
+    "audit_passed": true,
+    "compliance_score": 100,
+    "checks_passed": 6,
+    "total_checks": 6,
+    "discrepancies": [],
+    "items_audit": [
+      {
+        "sku": "SEG-GNT-101",
+        "status": "MATCHED_OK",
+        "price": 38.0
+      },
+      {
+        "sku": "ELEC-SEN-002",
+        "status": "MATCHED_OK",
+        "price": 61.75
+      },
+      {
+        "sku": "QUIM-DES-501",
+        "status": "MATCHED_OK",
+        "price": 80.75
+      }
+    ],
+    "approved_amount": 413.25,
+    "currency": "USD",
+    "vendor_paypal_email": "vendor-proserv@example.com",
+    "summary": "Auditoría Forense Exitosa: 3-Way Matching 100% verificado sin incidencias SAT ni sobreprecios."
+  },
+  "asiento_contable_poliza": {
+    "poliza_number": "POL-EGR-202610081506",
+    "poliza_type": "EGRESO_PAGO_ELECTRONICO",
+    "date": "2026-10-08 15:06:15",
+    "folio_origen": "REQ-DICT-20261008150612",
+    "beneficiary_vendor": "ProServicios Express Logistics",
+    "currency": "USD",
+    "total_debe": 413.25,
+    "total_haber": 413.25,
+    "is_balanced": true,
+    "classification_metadata": {
+      "account_code": "602.01",
+      "account_name": "Gastos de Operación - Seguridad Industrial y EPP",
+      "account_type": "Gasto Operativo",
+      "nature": "Deudora",
+      "cost_center_id": "CC-NUE",
+      "cost_center_name": "Planta de Ensamble y Producción",
+      "cost_center_responsible": "Ing. Roberto Garza",
+      "business_unit_id": "UN-MX-MTY",
+      "business_unit_name": "Planta Ensamble Monterrey",
+      "erp_target": "SAP Business One",
+      "dms_equivalent_code": "600-200-02",
+      "dms_full_matrix": {
+        "SAP": "600-200-02",
+        "Intelisis": "GAS-EPP-01",
+        "Dynamics": "EXP-SAFETY-01",
+        "CONTPAQi": "602-001-000"
+      },
+      "tax_rule": "IVA 16% Acreditable - Deducción Inmediata EPP (Art. 27 LISR)",
+      "retention_iva_rate": 0.0,
+      "retention_isr_rate": 0.0,
+      "nif_classification": "NIF C-4 (Inventarios e Insumos) / NIF D-1 (Ingresos y Gastos Ordinarios)",
+      "ai_explanation": "El concepto 'Guantes de Nitrilo Grado Industrial Calibre 6mil (Caja 100 pzas)' clasificado en 'Seguridad Industrial y EPP' corresponde a la cuenta '602.01 - Gastos de Operación - Seguridad Industrial y EPP', asignado al Centro de Costos 'Planta de Ensamble y Producción' (CC-NUE) para la entidad 'Planta Ensamble Monterrey' (SAP Business One). Criterio fiscal: IVA 16% Acreditable - Deducción Inmediata EPP (Art. 27 LISR)."
+    },
+    "entries": [
+      {
+        "line": 1,
+        "account_code": "602.01",
+        "account_name": "Gastos de Operación - Seguridad Industrial y EPP",
+        "concept": "Provisión compra Folio REQ-DICT-20261008150612 - ProServicios Express Logistics",
+        "cost_center": "CC-NUE",
+        "debe": 356.25,
+        "haber": 0.0
+      },
+      {
+        "line": 2,
+        "account_code": "118.01",
+        "account_name": "IVA Acreditable Pagado (16%)",
+        "concept": "IVA Trasladado 16% en compra Folio REQ-DICT-20261008150612",
+        "cost_center": "CC-NUE",
+        "debe": 57.0,
+        "haber": 0.0
+      },
+      {
+        "line": 3,
+        "account_code": "102.01",
+        "account_name": "Bancos Nacionales (Pasarela PayPal Settlement)",
+        "concept": "Liquidación instantánea PayPal Payout ID: PAYOUT-1791489974",
+        "cost_center": "CC-ADM",
+        "debe": 0.0,
+        "haber": 413.25
+      }
+    ],
+    "audit_hash": "SHA256-POL-2744ED16E8A50F60"
+  },
+  "liquidacion_paypal": {
+    "mode": "AUTONOMOUS_ZERO_TOUCH",
+    "status": "SETTLED",
+    "paypal_order_id": "7FH09863E2161610X",
+    "paypal_order_status": "CREATED",
+    "paypal_payout_batch_id": "PAYOUT-1791489974",
+    "amount_paid": 413.25,
+    "currency": "USD",
+    "recipient": "vendor-proserv@example.com",
+    "timestamp": "2026-10-08 15:06:15"
+  }
+}
