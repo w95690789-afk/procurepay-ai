@@ -5,3 +5,5 @@ __pycache__/
 tests/
 temp_uploads/
 .vercel/
+.vercel
+sharepoint_storage/

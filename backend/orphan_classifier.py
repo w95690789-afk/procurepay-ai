@@ -172,9 +172,10 @@ Responde ÚNICAMENTE un objeto JSON válido con esta estructura:
                             {"role": "user", "content": prompt}
                         ],
                         "temperature": 0.1,
-                        "max_tokens": 500
+                        "response_format": {"type": "json_object"},
+                        "max_tokens": 1024
                     }
-                    res = requests.post(url, json=payload, headers=headers, timeout=8)
+                    res = requests.post(url, json=payload, headers=headers, timeout=12)
                     if res.status_code == 200:
                         content = res.json()['choices'][0]['message']['content'].strip()
                         if "```json" in content:

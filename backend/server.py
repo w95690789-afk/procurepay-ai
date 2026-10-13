@@ -12,11 +12,15 @@ from .config import settings
 from .orchestrator import orchestrator
 from .procurement_agent import procurement_agent
 from .orphan_classifier import orphan_classifier, MASTER_CATALOG, CATEGORIES_MASTER
-from .accounting_engine import accounting_engine, CHART_OF_ACCOUNTS, COST_CENTERS, BUSINESS_UNITS
+from .accounting_engine import accounting_engine, CHART_OF_ACCOUNTS, COST_CENTERS, BUSINESS_UNITS, DMS_EQUIVALENCE
 from .sharepoint_emulator import sharepoint_emulator
 from .paypal_service import paypal_service
+from .vision_inspector import vision_inspector
+from .paypal_dispute import paypal_dispute_engine
+import time
 
 app = FastAPI(
+
     title="ProcurePay AI - Enterprise Autonomous Procurement, Accounting & PayPal Settlement",
     description="Cognitive Multi-Channel Ingestion, SharePoint Sync, Orphan Item Classification, Accounting Journal Entries, SAT 3-Way Audit & Instant PayPal Settlement",
     version="2.5.0"
@@ -288,3 +292,81 @@ async def run_preset(preset_id: str):
         return JSONResponse(content=orchestrator.process_end_to_end_procurement(req, incoming_invoice=tampered_invoice))
 
     raise HTTPException(status_code=404, detail="Preset no encontrado")
+
+# --- Extended Enterprise Endpoints (FINNOVA & PayPal Superpowers) ---
+
+@app.get("/api/treasury-kpis")
+async def get_treasury_kpis():
+    """Returns executive treasury metrics for FINNOVA dashboard header."""
+    return JSONResponse(content=paypal_service.get_treasury_metrics())
+
+@app.post("/api/vision-inspect")
+async def inspect_vision_image(payload: Dict[str, Any] = Body(...)):
+    """Multimodal Vision Inspection for industrial parts and nameplates."""
+    image_data = payload.get("image_data", "omron-sensor")
+    notes = payload.get("notes", "")
+    auto_procure = payload.get("auto_procure", True)
+    
+    inspection = vision_inspector.inspect_part_image(image_data, notes)
+    
+    procurement_result = None
+    if auto_procure and inspection.get("suggested_catalog_sku"):
+        req = {
+            "folio": f"REQ-VIS-{int(time.time())}",
+            "department": "Mantenimiento y Automatización 4.0",
+            "requested_by": "Ing. Técnico de Planta (Inspección Visual)",
+            "currency": "USD",
+            "items": [
+                {
+                    "sku": inspection.get("suggested_catalog_sku"),
+                    "description": f"{inspection.get('detected_part_name')} - {inspection.get('model_part_number')} ({inspection.get('manufacturer')})",
+                    "quantity": 1,
+                    "unit": "PZA",
+                    "estimated_unit_price": float(inspection.get("estimated_unit_price_usd", 120.0))
+                }
+            ]
+        }
+        procurement_result = orchestrator.process_end_to_end_procurement(req)
+        
+    return JSONResponse(content={
+        "inspection": inspection,
+        "procurement": procurement_result
+    })
+
+@app.post("/api/paypal/create-dispute")
+async def create_paypal_dispute(payload: Dict[str, Any] = Body(...)):
+    """Explicitly files an automated AI dispute claim with PayPal."""
+    req_id = payload.get("requisition_id", f"REQ-{int(time.time())}")
+    vendor = payload.get("vendor_name", "Proveedor Reportado S.A. de C.V.")
+    rfc = payload.get("vendor_rfc", "FAS190101999")
+    invoice = payload.get("invoice_number", f"FAC-{int(time.time())}")
+    discrepancies = payload.get("discrepancies", [{"type": "EFOS_BLACKLIST", "detail": "Proveedor en lista negra SAT Art. 69-B definitivo"}])
+    amount = float(payload.get("amount", 551.0))
+    currency = payload.get("currency", "USD")
+    order_id = payload.get("paypal_order_id", None)
+    
+    dispute = paypal_dispute_engine.generate_dispute_docket(
+        requisition_id=req_id,
+        vendor_name=vendor,
+        vendor_rfc=rfc,
+        invoice_number=invoice,
+        discrepancies=discrepancies,
+        claimed_amount=amount,
+        currency=currency,
+        paypal_order_id=order_id
+    )
+    return JSONResponse(content=dispute)
+
+@app.get("/api/multi-dms-matrix")
+async def get_multi_dms_matrix():
+    """Returns ERP translation mapping matrix across SAP, Intelisis, Dynamics and CONTPAQi."""
+    return JSONResponse(content={
+        "matrix": DMS_EQUIVALENCE,
+        "systems": [
+            {"id": "SAP", "name": "SAP Business One", "format": "000-000-00", "active_unit": "Planta Monterrey"},
+            {"id": "Intelisis", "name": "Intelisis ERP México", "format": "GAS-XXX-00", "active_unit": "Planta Puebla"},
+            {"id": "Dynamics", "name": "Microsoft Dynamics 365", "format": "EXP-CATEGORY-00", "active_unit": "Cedis CDMX"},
+            {"id": "CONTPAQi", "name": "CONTPAQi Contabilidad", "format": "602-000-000", "active_unit": "Planta Querétaro"}
+        ]
+    })
+

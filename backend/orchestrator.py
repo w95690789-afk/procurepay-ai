@@ -8,6 +8,7 @@ from .accounting_auditor import accounting_auditor
 from .accounting_engine import accounting_engine
 from .sharepoint_emulator import sharepoint_emulator
 from .paypal_service import paypal_service
+from .paypal_dispute import paypal_dispute_engine
 
 class ProcurePayOrchestrator:
     def __init__(self):
@@ -93,6 +94,25 @@ class ProcurePayOrchestrator:
             num_disc = len(audit_result['discrepancies'])
             logs[-1]['status'] = 'FAILED'
             logs[-1]['msg'] = f"Auditoría fallida: {num_disc} discrepancias o alerta fiscal detectada. Pago bloqueado."
+            
+            # Automated PayPal Dispute Generation
+            dispute_docket = paypal_dispute_engine.generate_dispute_docket(
+                requisition_id=req_id,
+                vendor_name=incoming_invoice.get('vendor_name', vendor_name),
+                vendor_rfc=incoming_invoice.get('vendor_rfc', 'RFC-DISPUTED'),
+                invoice_number=incoming_invoice.get('invoice_number', 'FAC-UNKNOWN'),
+                discrepancies=audit_result.get('discrepancies', []),
+                claimed_amount=incoming_invoice.get('grand_total', grand_total),
+                currency=incoming_invoice.get('currency', curr)
+            )
+
+            logs.append({
+                'step': 4,
+                'name': 'PayPal Automated Dispute Resolution Engine',
+                'status': 'WARNING_ACTIVE',
+                'msg': f"Expediente de Disputa '{dispute_docket['dispute_id']}' radicado con evidencia criptográfica SHA-256 ante PayPal."
+            })
+
             return {
                 'pipeline_status': 'REJECTED_AUDIT_DISCREPANCY',
                 'execution_time_seconds': round(time.time() - start_time, 2),
@@ -102,6 +122,7 @@ class ProcurePayOrchestrator:
                 'audit_result': audit_result,
                 'accounting_poliza': None,
                 'settlement': None,
+                'paypal_dispute': dispute_docket,
                 'sharepoint_archive': None,
                 'logs': logs
             }
